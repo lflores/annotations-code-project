@@ -1,6 +1,52 @@
 # Annotations Code Generator   
 
-## Crear el proyecto base
+El siguiente proyecto es un ejemplo de como generar un plugin de maven y como poder utilizar el plugin y aprovechar las
+funcionalidades generadas en él.
+
+El plugin es bastante sencillo pero muestra los dos aspectos más importantes que se pueden usar con [Maven](https://maven.apache.org).
+El ejemplo no busca ser exhaustivo sino animar a aquellos que quieran incursionar y que muchas veces por miedo o desconocimiento 
+no se animaron, como me pasó a mi.
+
+Este repositorio está estructurado para poder bajar el código y poder ejecutar para ver los ejemplos en funcionamiento. 
+Si desean crear un repositorio similar 
+
+## Instalación del plugin
+
+Una vez que tengan descagado el repositorio podrán generar el plugin y podrán usarlo para ver los resultados.
+
+Con el siguiente comando en el directorio raíz de éste proyecto podrán generar una versión del plugin y podrán instalarlo
+en su repositorio local para su posterior uso.
+
+```bash
+mvn clean install -f annotations-code-maven-plugin/pom.xml
+```
+
+Con ésto podrán generar el plugin y lo dejarán instalado para poder usarlo como vemos más adelante.
+
+## Ejecutar el plugin
+
+Una vez que el plugin se encuentra instalado podremos usarlo de la siguiente manera.
+Tenemos dos partes visibles para probar o ejecutar por linea de comando.
+
+```bash
+mvn org.triadsoft.plugin:annotations-code-maven-plugin:version
+```
+```bash
+mvn org.triadsoft.plugin:annotations-code-maven-plugin:property-helper
+```
+
+## Ejecutar el uso del plugin
+
+```bash
+mvn clean package -f annotations-code-user/pom.xml
+```
+
+## Como se creo éste proyecto
+
+Aquí encontrarán una mini guía de como se creo y se estructuró éste proyecto para que sirva de base para futuros proyectos.
+
+
+### Crear el proyecto base
 
 ```bash
 mvn archetype:generate \
@@ -11,7 +57,7 @@ mvn archetype:generate \
 -DartifactId=annotations-code-gen-maven-plugin
 ```
 
-## Crear el módulo para el plugin
+### Crear el módulo para el plugin
 
 ```bash
 mvn archetype:generate \
@@ -20,7 +66,7 @@ mvn archetype:generate \
 -DartifactId=annotations-code-generator
 ```
 
-## Crear el módulo de uso
+### Crear el módulo de uso
 
 ```bash
 mvn archetype:generate \
@@ -29,7 +75,7 @@ mvn archetype:generate \
 -DartifactId=annotations-code-user
 ```
 
-## Agregar properties para el compilador y el encoding
+### Agregar properties para el compilador y el encoding
 maven Source option 5 is no longer supported. Use 7 or later.
 
 ```xml
@@ -39,18 +85,6 @@ maven Source option 5 is no longer supported. Use 7 or later.
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 </properties>
-```
-
-## Ejecutar el plugin
-
-```bash
-mvn org.triadsoft.plugin:annotations-code-maven-plugin:version
-```
-
-## Ejecutar el uso del plugin
-
-```bash
-mvn package -f annotations-code-user/pom.xml
 ```
 
 ## Recursos

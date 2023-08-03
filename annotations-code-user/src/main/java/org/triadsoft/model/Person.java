@@ -11,4 +11,7 @@ public interface Person {
     Integer age = null;
     String lastName = null;
     String firstName = null;
+    Integer identityType = null;
+    String identityNumber = null;
+
 }
