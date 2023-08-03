@@ -44,7 +44,7 @@ maven Source option 5 is no longer supported. Use 7 or later.
 ## Ejecutar el plugin
 
 ```bash
-mvn org.triadsoft.plugin:annotations-code-generator:version
+mvn org.triadsoft.plugin:annotations-code-maven-plugin:version
 ```
 
 ## Ejecutar el uso del plugin
