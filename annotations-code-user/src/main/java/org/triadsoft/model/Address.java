@@ -1,6 +1,6 @@
-package org.perficient.model;
+package org.triadsoft.model;
 
-import org.perficient.plugin.annotations.Data;
+import org.triadsoft.plugin.annotations.Data;
 
 @Data
 public interface Address {

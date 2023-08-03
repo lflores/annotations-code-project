@@ -3,20 +3,15 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-<!--    <parent>-->
-<!--        <groupId>org.perficient</groupId>-->
-<!--        <artifactId>annotations-code-project</artifactId>-->
-<!--        <version>1.0-SNAPSHOT</version>-->
-<!--    </parent>-->
-    <groupId>org.perficient.plugin</groupId>
+    <groupId>org.triadsoft.plugin</groupId>
     <artifactId>annotations-code-maven-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
     <name>Annotations Code Generator</name>
     <description>A simple plugin to generate code from code annotations</description>
     <organization>
-        <name>Perficient Latam Inc.</name>
-        <url>https://www.linkedin.com/company/perficient-latin-america/mycompany/</url>
+        <name>Triadsoft Open Source</name>
+        <url>https://www.linkedin.com/in/leonardo-alberto-flores-2222143/</url>
     </organization>
     <prerequisites>
         <maven>3.6.0</maven>

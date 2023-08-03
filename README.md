@@ -7,7 +7,7 @@ mvn archetype:generate \
 -DarchetypeGroupId=org.codehaus.mojo.archetypes \
 -DarchetypeArtifactId=pom-root \
 -DarchetypeVersion=1.1 \
--DgroupId=org.perficient \
+-DgroupId=org.triadsoft.plugin \
 -DartifactId=annotations-code-gen-maven-plugin
 ```
 
@@ -16,7 +16,7 @@ mvn archetype:generate \
 ```bash
 mvn archetype:generate \
 -DarchetypeArtifactId=maven-archetype-quickstart \
--DgroupId=org.perficient.plugin \
+-DgroupId=org.triadsoft.plugin \
 -DartifactId=annotations-code-generator
 ```
 
@@ -25,7 +25,7 @@ mvn archetype:generate \
 ```bash
 mvn archetype:generate \
 -DarchetypeArtifactId=maven-archetype-quickstart \
--DgroupId=org.perficient.plugin \
+-DgroupId=org.triadsoft.plugin \
 -DartifactId=annotations-code-user
 ```
 
@@ -44,7 +44,7 @@ maven Source option 5 is no longer supported. Use 7 or later.
 ## Ejecutar el plugin
 
 ```bash
-mvn org.perficient.plugin:annotations-code-generator:version
+mvn org.triadsoft.plugin:annotations-code-generator:version
 ```
 
 ## Ejecutar el uso del plugin

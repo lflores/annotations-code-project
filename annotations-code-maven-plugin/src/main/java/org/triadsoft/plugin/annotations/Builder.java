@@ -1,4 +1,4 @@
-package org.perficient.plugin.annotations;
+package org.triadsoft.plugin.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

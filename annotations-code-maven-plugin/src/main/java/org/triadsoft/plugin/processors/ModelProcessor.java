@@ -1,9 +1,9 @@
-package org.perficient.plugin.processors;
+package org.triadsoft.plugin.processors;
 
 import com.google.auto.service.AutoService;
-import org.perficient.plugin.annotations.Builder;
-import org.perficient.plugin.annotations.Constructor;
-import org.perficient.plugin.annotations.Data;
+import org.triadsoft.plugin.annotations.Builder;
+import org.triadsoft.plugin.annotations.Constructor;
+import org.triadsoft.plugin.annotations.Data;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
@@ -18,10 +18,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-@SupportedAnnotationTypes({
-        "org.perficient.plugin.annotations.Constructor",
-        "org.perficient.plugin.annotations.Data",
-        "org.perficient.plugin.annotations.Builder"
+@SupportedAnnotationTypes(value = {
+        "org.triadsoft.plugin.annotations.Constructor",
+        "org.triadsoft.plugin.annotations.Data",
+        "org.triadsoft.plugin.annotations.Builder"
 })
 @AutoService(Processor.class)
 public class ModelProcessor extends AbstractProcessor {

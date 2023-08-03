@@ -1,4 +1,4 @@
-package org.perficient.plugin;
+package org.triadsoft.plugin;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

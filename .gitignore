@@ -1,4 +1,4 @@
-.idea
+**/.idea
 /annotations-code-user/target/
 /annotations-code-maven-pluginr/target/
 /annotations-code-user/src/main/resources/data/dev.properties

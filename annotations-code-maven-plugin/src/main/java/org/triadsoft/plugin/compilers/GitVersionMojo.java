@@ -1,4 +1,4 @@
-package org.perficient.plugin.compilers;
+package org.triadsoft.plugin.compilers;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
