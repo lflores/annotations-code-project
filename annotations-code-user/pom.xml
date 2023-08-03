@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.perficient.plugin</groupId>
+  <artifactId>annotations-code-user</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Annotations Code User Example</name>
+  <description>Annotation User Example</description>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <maven.version>3.6.0</maven.version>
+    <maven.annotations>3.5</maven.annotations>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <perficient.plugin.version>1.0-SNAPSHOT</perficient.plugin.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.perficient.plugin</groupId>
+      <artifactId>annotations-code-maven-plugin</artifactId>
+      <version>${perficient.plugin.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.version}</version>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.perficient.plugin</groupId>
+              <artifactId>annotations-code-maven-plugin</artifactId>
+              <version>${perficient.plugin.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.perficient.plugin</groupId>
+        <artifactId>annotations-code-maven-plugin</artifactId>
+        <version>${perficient.plugin.version}</version>
+        <configuration>
+          <!-- optional, the command parameter can be changed here too -->
+          <command>git rev-parse HEAD</command>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>version</goal>
+              <goal>property-helper</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
