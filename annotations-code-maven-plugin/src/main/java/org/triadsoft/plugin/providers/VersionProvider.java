@@ -1,4 +1,4 @@
-package org.triadsoft.plugin.compilers;
+package org.triadsoft.plugin.providers;
 
 import org.apache.maven.plugin.MojoExecutionException;
 

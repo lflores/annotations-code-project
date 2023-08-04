@@ -1,9 +1,9 @@
 package org.triadsoft.plugin.processors;
 
 import com.google.auto.service.AutoService;
-import org.triadsoft.plugin.annotations.Builder;
-import org.triadsoft.plugin.annotations.Constructor;
-import org.triadsoft.plugin.annotations.Data;
+import org.triadsoft.plugin.processors.annotations.Builder;
+import org.triadsoft.plugin.processors.annotations.Constructor;
+import org.triadsoft.plugin.processors.annotations.Data;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;

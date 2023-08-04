@@ -1,6 +1,7 @@
-package org.triadsoft.plugin.compilers;
+package org.triadsoft.plugin.providers.impl;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.triadsoft.plugin.providers.VersionProvider;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
