@@ -1,6 +1,6 @@
 package org.triadsoft;
 
-import org.triadsoft.model.PersonImpl;
+//import org.triadsoft.model.PersonImpl;
 
 public class PersonApp {
     public static void main(String[] args) {
