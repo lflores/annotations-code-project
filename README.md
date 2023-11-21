@@ -3,16 +3,20 @@
 El siguiente proyecto es un ejemplo de como generar un plugin de maven y como poder utilizar el plugin y aprovechar las
 funcionalidades generadas en él.
 
+Este proyecto nace porque encontré pocos ejemplos en español y además me pareció un buena manera de aprender la implementación y compartirla.
+
 El plugin es bastante sencillo pero muestra los dos aspectos más importantes que se pueden usar con [Maven](https://maven.apache.org).
 El ejemplo no busca ser exhaustivo sino animar a aquellos que quieran incursionar y que muchas veces por miedo o desconocimiento 
 no se animaron, como me pasó a mi.
 
 Este repositorio está estructurado para poder bajar el código y poder ejecutar para ver los ejemplos en funcionamiento. 
-Si desean crear un repositorio similar 
+
 
 ## Instalación del plugin
 
-Una vez que tengan descagado el repositorio podrán generar el plugin y podrán usarlo para ver los resultados.
+El proyecto se encuentra ubicado en un mono repo, donde conviven en el mismo proyecto maven, el plugin y el proyecto que lo utiliza.
+
+Una vez que tengan descagado el repositorio podrán generar el plugin y podrán usarlo para ver los resultados con simples lineas de commando.
 
 Con el siguiente comando en el directorio raíz de éste proyecto podrán generar una versión del plugin y podrán instalarlo
 en su repositorio local para su posterior uso.
@@ -21,16 +25,20 @@ en su repositorio local para su posterior uso.
 mvn clean install -f annotations-code-maven-plugin/pom.xml
 ```
 
-Con ésto podrán generar el plugin y lo dejarán instalado para poder usarlo como vemos más adelante.
+Con ésto se genera el plugin y lo instala en el repositorio local de maven generalmente en la carpeta ~/.mvn/repository.
 
-## Ejecutar el plugin
+## Ejecutar el plugin de la versión
 
-Una vez que el plugin se encuentra instalado podremos usarlo de la siguiente manera.
-Tenemos dos partes visibles para probar o ejecutar por linea de comando.
+El plugin version es un plugin que devuelve de el id del commit 
 
 ```bash
 mvn org.triadsoft.plugin:annotations-code-maven-plugin:version
 ```
+
+## Ejecturar el plugin del property helper
+
+El property-helper es un mojo que 
+
 ```bash
 mvn org.triadsoft.plugin:annotations-code-maven-plugin:property-helper
 ```
