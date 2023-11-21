@@ -1,6 +1,6 @@
 package org.triadsoft.model;
 
-import org.triadsoft.plugin.annotations.Data;
+import org.triadsoft.plugin.processors.annotations.Data;
 
 @Data
 public interface Customer {

@@ -1,8 +1,8 @@
 package org.triadsoft.model;
 
-import org.triadsoft.plugin.annotations.Builder;
-import org.triadsoft.plugin.annotations.Constructor;
-import org.triadsoft.plugin.annotations.Data;
+import org.triadsoft.plugin.processors.annotations.Builder;
+import org.triadsoft.plugin.processors.annotations.Constructor;
+import org.triadsoft.plugin.processors.annotations.Data;
 
 @Data
 @Constructor
@@ -13,5 +13,5 @@ public interface Person {
     String firstName = null;
     Integer identityType = null;
     String identityNumber = null;
-
+    Address address = null;
 }
