@@ -19,9 +19,9 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>.plugin</groupId>
+      <groupId>org.triadsoft.plugin</groupId>
       <artifactId>annotations-code-maven-plugin</artifactId>
-      <version>${triadsoft.plugin.version}</version>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
