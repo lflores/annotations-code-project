@@ -1,35 +1,32 @@
 package org.triadsoft.plugin.providers.impl;
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.triadsoft.plugin.providers.VersionProvider;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.Executors;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.triadsoft.plugin.providers.VersionProvider;
+
 @Named
 @Singleton
 public class RuntimeExecVersionProvider implements VersionProvider {
     @Override
     public String getVersion(String command) throws MojoExecutionException {
         try {
-            StringBuilder builder = new StringBuilder();
-
             Process process = Runtime.getRuntime().exec(command);
-            Executors.newSingleThreadExecutor().submit(() ->
-                    new BufferedReader(new InputStreamReader(process.getInputStream())).lines().forEach(builder::append)
-            );
             int exitCode = process.waitFor();
 
-            if (exitCode != 0) {
-                throw new MojoExecutionException("Execution of command '" + command + "' failed with exit code: " + exitCode);
+            // Verificar si el proceso terminó correctamente (exitCode == 0)
+            if (exitCode == 0) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                return reader.readLine();
+            } else {
+                throw new MojoExecutionException(
+             "Execution of command '" + command + "' failed with exit code: " + exitCode);
             }
-
-            // return the output
-            return builder.toString();
-
         } catch (IOException | InterruptedException e) {
             throw new MojoExecutionException("Execution of command '" + command + "' failed", e);
         }

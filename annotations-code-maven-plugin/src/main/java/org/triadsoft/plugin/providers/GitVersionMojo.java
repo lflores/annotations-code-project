@@ -1,5 +1,7 @@
 package org.triadsoft.plugin.providers;
 
+import javax.inject.Inject;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -8,10 +10,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import javax.inject.Inject;
-
 /**
- * An example Maven Mojo that resolves the current project's git revision and adds that a new {@code exampleVersion}
+ * An example Maven Mojo that resolves the current project's git revision and
+ * adds that a new {@code exampleVersion}
  * property to the current Maven project.
  */
 @Mojo(name = "version", defaultPhase = LifecyclePhase.INITIALIZE)
@@ -30,6 +31,7 @@ public class GitVersionMojo extends AbstractMojo {
     private VersionProvider versionProvider;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
+        this.getLog().info("Command: " + command);
         String version = versionProvider.getVersion(command);
         project.getProperties().put("exampleVersion", version);
         getLog().info("Git hash: " + version);
