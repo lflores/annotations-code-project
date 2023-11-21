@@ -54,7 +54,7 @@
         <version>${triadsoft.plugin.version}</version>
         <configuration>
           <!-- optional, the command parameter can be changed here too -->
-          <command>git rev-parse HEAD</command>
+          <!-- <command>git rev-parse HEAD</command> -->
         </configuration>
         <executions>
           <execution>
