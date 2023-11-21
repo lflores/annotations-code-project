@@ -4,31 +4,32 @@ import com.google.auto.service.AutoService;
 import org.triadsoft.plugin.processors.annotations.Builder;
 import org.triadsoft.plugin.processors.annotations.Constructor;
 import org.triadsoft.plugin.processors.annotations.Data;
-
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
+import javax.tools.JavaFileObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_11)
 @SupportedAnnotationTypes(value = {
-        "org.triadsoft.plugin.annotations.Constructor",
-        "org.triadsoft.plugin.annotations.Data",
-        "org.triadsoft.plugin.annotations.Builder"
+        "org.triadsoft.plugin.processors.annotations.Constructor",
+        "org.triadsoft.plugin.processors.annotations.Data",
+        "org.triadsoft.plugin.processors.annotations.Builder"
 })
 @AutoService(Processor.class)
 public class ModelProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-
-
         for (Element element : roundEnv.getElementsAnnotatedWith(Data.class)) {
             boolean hasBuilder = Objects.nonNull(element.getAnnotation(Builder.class));
             boolean hasConstructor = Objects.nonNull(element.getAnnotation(Constructor.class));
@@ -37,12 +38,17 @@ public class ModelProcessor extends AbstractProcessor {
         return true;
     }
 
-    private void generateImplementation(Element classElement, boolean hasData, boolean hasBuilder, boolean hasConstructor) {
+    private void generateImplementation(Element classElement, boolean hasData, boolean hasBuilder,
+            boolean hasConstructor) {
+        PackageElement packageElement = processingEnv.getElementUtils().getPackageOf(classElement);
+        String packageName = packageElement.getQualifiedName().toString();
+        
         String className = classElement.getSimpleName().toString() + "Impl";
         PrintWriter writer = null;
+        Filer filer = processingEnv.getFiler();
         try {
-            writer = new PrintWriter(
-                    processingEnv.getFiler().createSourceFile(className).openWriter());
+            JavaFileObject fileObject = filer.createSourceFile(packageName + "."+className);
+            writer = new PrintWriter(fileObject.openWriter());
             this.generateClassHeader(writer, classElement);
             if (hasConstructor || hasBuilder) {
                 this.generateConstructor(writer, classElement);
@@ -65,25 +71,23 @@ public class ModelProcessor extends AbstractProcessor {
                 .stream().filter(e -> ElementKind.FIELD.equals(e.getKind()))
                 .collect(Collectors.toList());
         fields.forEach(field -> {
-                    String type = field.asType().toString();
-                    String fieldName = field.getSimpleName().toString();
-                    writer.println(String.format("\tpublic void set%s(%s %s){",
-                            fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1),
-                            type, fieldName));
-                    writer.println(String.format("\t\tthis.%s=%s;", fieldName, fieldName));
-                    writer.println("\t}");
-                }
-        );
+            String type = field.asType().toString();
+            String fieldName = field.getSimpleName().toString();
+            writer.println(String.format("\tpublic void set%s(%s %s){",
+                    fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1),
+                    type, fieldName));
+            writer.println(String.format("\t\tthis.%s=%s;", fieldName, fieldName));
+            writer.println("\t}");
+        });
 
         fields.forEach(field -> {
-                    String type = field.asType().toString();
-                    String fieldName = field.getSimpleName().toString();
-                    writer.println(String.format("\tpublic %s get%s(){",
-                            type, fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)));
-                    writer.println(String.format("\t\treturn this.%s;", fieldName));
-                    writer.println("\t}");
-                }
-        );
+            String type = field.asType().toString();
+            String fieldName = field.getSimpleName().toString();
+            writer.println(String.format("\tpublic %s get%s(){",
+                    type, fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1)));
+            writer.println(String.format("\t\treturn this.%s;", fieldName));
+            writer.println("\t}");
+        });
     }
 
     private void generateConstructor(PrintWriter writer, Element classElement) {
@@ -102,7 +106,8 @@ public class ModelProcessor extends AbstractProcessor {
         writer.println(String.join(",\n", fieldArray));
         writer.println("\t){");
         fields.forEach(field -> {
-            writer.println(String.format("\t\tthis.%s = %s;", field.getSimpleName().toString(), field.getSimpleName().toString()));
+            writer.println(String.format("\t\tthis.%s = %s;", field.getSimpleName().toString(),
+                    field.getSimpleName().toString()));
         });
         writer.println("\t}");
     }
@@ -119,27 +124,21 @@ public class ModelProcessor extends AbstractProcessor {
                 "\t}", builderName, builderName));
 
         printWriter.println(String.format("\tpublic static class %s {", builderName));
-        fields.forEach(field ->
-                printWriter.print(String.format("\t\tprivate %s %s;\n", field.asType().toString(), field.getSimpleName())
-                )
-        );
+        fields.forEach(field -> printWriter
+                .print(String.format("\t\tprivate %s %s;\n", field.asType().toString(), field.getSimpleName())));
 
         printWriter.println();
-        fields.forEach(field ->
-                printWriter.println(String.format("\t\tpublic %s %s(%s value) {\n" +
-                                "\t\t\t%s = value;\n" +
-                                "\t\t\treturn this;\n" +
-                                "\t\t}", builderName, field.getSimpleName(),
-                        field.asType().toString(), field.getSimpleName())
-                )
-        );
+        fields.forEach(field -> printWriter.println(String.format("\t\tpublic %s %s(%s value) {\n" +
+                "\t\t\t%s = value;\n" +
+                "\t\t\treturn this;\n" +
+                "\t\t}", builderName, field.getSimpleName(),
+                field.asType().toString(), field.getSimpleName())));
 
         printWriter.println(String.format("\t\tpublic %s build() {\n" +
-                        "\t\t\treturn new %s(%s);\n" +
-                        "\t\t}", className, className,
+                "\t\t\treturn new %s(%s);\n" +
+                "\t\t}", className, className,
                 fields.stream().map(Element::getSimpleName)
-                        .collect(Collectors.joining(", ")))
-        );
+                        .collect(Collectors.joining(", "))));
         printWriter.println("\t}");
     }
 
@@ -160,9 +159,7 @@ public class ModelProcessor extends AbstractProcessor {
         List<? extends Element> fields = classElement.getEnclosedElements()
                 .stream().filter(e -> ElementKind.FIELD.equals(e.getKind()))
                 .collect(Collectors.toList());
-        fields.forEach(field ->
-                writer.print(String.format("\tprivate %s %s;\n", field.asType().toString(), field.getSimpleName())
-                )
-        );
+        fields.forEach(field -> writer
+                .print(String.format("\tprivate %s %s;\n", field.asType().toString(), field.getSimpleName())));
     }
 }
