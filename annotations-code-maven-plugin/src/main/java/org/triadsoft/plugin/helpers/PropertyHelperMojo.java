@@ -1,5 +1,20 @@
 package org.triadsoft.plugin.helpers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -7,22 +22,10 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
-
-import java.io.*;
-import java.util.*;
-import java.util.regex.Matcher;
+import org.triadsoft.utils.ColorConstants;
 
 @Mojo(name = "property-helper", defaultPhase = LifecyclePhase.INITIALIZE)
 public class PropertyHelperMojo extends AbstractMojo {
-
-    static final String RED = "\033[0;31m";
-    static final String GREEN = "\033[0;32m";
-    static final String CYAN = "\033[0;36m";
-    static final String LIGHT_RED = "\033[1;31m";
-    static final String LIGHT_GREEN = "\033[1;32m";
-    static final String YELLOW = "\033[1;33m";
-    static final String LIGHT_BLUE = "\033[1;34m";
-    static final String NC = "\033[0m"; // No Color
 
     static final String NEW_LINE = "\n";
     @Parameter(name = "project", readonly = true, defaultValue = "${project}")
@@ -46,7 +49,8 @@ public class PropertyHelperMojo extends AbstractMojo {
         if (Objects.nonNull(project)) {
             project.getResources().forEach(resource -> {
                 this.getLog().info("");
-                this.getLog().info("--- " + GREEN + "Looking for resources in folder" + NC + " ---");
+                this.getLog().info(
+                        "--- " + ColorConstants.GREEN + "Looking for resources in folder" + ColorConstants.NC + " ---");
                 this.getLog().info(resource.getDirectory());
                 resourcesFolder = new File(resource.getDirectory());
                 templatesFolder = new File(String.format("%s/%s", resource.getDirectory(), templatesFolderName));
@@ -55,11 +59,16 @@ public class PropertyHelperMojo extends AbstractMojo {
 
                 if (!templatesFolder.isDirectory()
                         || !templateFile.isFile()
-                        || !dataFolder.isDirectory()
-                ) {
-                    getLog().error(String.format("%s%s folder exist?:%s %b", YELLOW, templatesFolder.getAbsoluteFile(), NC, templatesFolder.isDirectory()));
-                    getLog().error(String.format("%s%s folder exist?%s: %b", YELLOW, dataFolder.getAbsoluteFile(), NC, dataFolder.isDirectory()));
-                    getLog().error(String.format("%s%s file? exist%s: %b", YELLOW, templateFile.getName(), NC, templateFile.isFile()));
+                        || !dataFolder.isDirectory()) {
+                    getLog().error(String.format("%s%s folder exist?:%s %b", ColorConstants.YELLOW,
+                            templatesFolder.getAbsoluteFile(),
+                            ColorConstants.NC, templatesFolder.isDirectory()));
+                    getLog().error(String.format("%s%s folder exist?%s: %b", ColorConstants.YELLOW,
+                            dataFolder.getAbsoluteFile(), ColorConstants.NC,
+                            dataFolder.isDirectory()));
+                    getLog().error(String.format("%s%s file? exist%s: %b", ColorConstants.YELLOW,
+                            templateFile.getName(), ColorConstants.NC,
+                            templateFile.isFile()));
                 }
             });
             if (Objects.nonNull(templatesFolder)
@@ -67,8 +76,7 @@ public class PropertyHelperMojo extends AbstractMojo {
                     && Objects.nonNull(templateFile)
                     && templateFile.isFile()
                     && Objects.nonNull(dataFolder)
-                    && dataFolder.isDirectory()
-            ) {
+                    && dataFolder.isDirectory()) {
                 this.generateFiles();
             }
         }
@@ -109,12 +117,13 @@ public class PropertyHelperMojo extends AbstractMojo {
         return properties;
     }
 
-    private void replaceWildcards(final Properties p, final File origin, final File destination) throws MojoExecutionException {
+    private void replaceWildcards(final Properties p, final File origin, final File destination)
+            throws MojoExecutionException {
         this.getLog().info("");
-        this.getLog().info("--- " + GREEN + "Using template file" + NC + " ---");
+        this.getLog().info("--- " + ColorConstants.GREEN + "Using template file" + ColorConstants.NC + " ---");
         this.getLog().info(origin.getPath());
         this.getLog().info("");
-        this.getLog().info("--- " + GREEN + "Putting result in" + NC + " ---");
+        this.getLog().info("--- " + ColorConstants.GREEN + "Putting result in" + ColorConstants.NC + " ---");
         this.getLog().info(destination.getPath());
         String content;
         final List<String> localContent = new ArrayList<String>();
@@ -127,7 +136,7 @@ public class PropertyHelperMojo extends AbstractMojo {
                 contentBuilder.append(scanner.nextLine());
                 contentBuilder.append(System.lineSeparator()); // Agrega el separador de línea correspondiente
             }
-
+            scanner.close();
             content = contentBuilder.toString();
             this.getLog().debug("File content: " + content);
 

@@ -1,10 +1,19 @@
 package org.triadsoft.plugin.processors;
 
-import com.google.auto.service.AutoService;
-import org.triadsoft.plugin.processors.annotations.Builder;
-import org.triadsoft.plugin.processors.annotations.Constructor;
-import org.triadsoft.plugin.processors.annotations.Data;
-import javax.annotation.processing.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Filer;
+import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
@@ -12,13 +21,14 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.triadsoft.plugin.processors.annotations.Builder;
+import org.triadsoft.plugin.processors.annotations.Constructor;
+import org.triadsoft.plugin.processors.annotations.Data;
+import org.triadsoft.utils.ColorConstants;
+
+import com.google.auto.service.AutoService;
 
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 @SupportedAnnotationTypes(value = {
@@ -28,6 +38,14 @@ import java.util.stream.Collectors;
 })
 @AutoService(Processor.class)
 public class ModelProcessor extends AbstractProcessor {
+
+    private static final Logger logger = LoggerFactory.getLogger(ModelProcessor.class);
+
+    @Override
+    public synchronized void init(ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+    }
+
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (Element element : roundEnv.getElementsAnnotatedWith(Data.class)) {
@@ -42,12 +60,12 @@ public class ModelProcessor extends AbstractProcessor {
             boolean hasConstructor) {
         PackageElement packageElement = processingEnv.getElementUtils().getPackageOf(classElement);
         String packageName = packageElement.getQualifiedName().toString();
-        
+        logger.info(String.format("package name: --- %s %s %s ---",ColorConstants.GREEN,packageName,ColorConstants.NC));
         String className = classElement.getSimpleName().toString() + "Impl";
         PrintWriter writer = null;
         Filer filer = processingEnv.getFiler();
         try {
-            JavaFileObject fileObject = filer.createSourceFile(packageName + "."+className);
+            JavaFileObject fileObject = filer.createSourceFile(packageName + "." + className);
             writer = new PrintWriter(fileObject.openWriter());
             this.generateClassHeader(writer, classElement);
             if (hasConstructor || hasBuilder) {
