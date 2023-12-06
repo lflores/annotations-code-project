@@ -62,7 +62,7 @@ mvn archetype:generate \
 -DarchetypeArtifactId=pom-root \
 -DarchetypeVersion=1.1 \
 -DgroupId=org.triadsoft.plugin \
--DartifactId=annotations-code-gen-maven-plugin
+-DartifactId=annotations-code-project
 ```
 
 ### Crear el módulo para el plugin
@@ -71,7 +71,7 @@ mvn archetype:generate \
 mvn archetype:generate \
 -DarchetypeArtifactId=maven-archetype-quickstart \
 -DgroupId=org.triadsoft.plugin \
--DartifactId=annotations-code-generator
+-DartifactId=annotations-code-maven-plugin
 ```
 
 ### Crear el módulo de uso
