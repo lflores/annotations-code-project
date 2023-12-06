@@ -168,6 +168,7 @@ public class ModelProcessor extends AbstractProcessor {
         String packageName = classElement.getEnclosingElement().toString();
         String interfaceName = classElement.getSimpleName().toString();
         String classNameImpl = classElement.getSimpleName().toString() + "Impl";
+        logger.info(String.format("Classname: %s", classNameImpl));
 
         writer.println(String.format("package %s;\n", packageName));
         writer.println("/**\n" +

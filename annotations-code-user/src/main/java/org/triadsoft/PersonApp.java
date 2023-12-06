@@ -10,12 +10,12 @@ public class PersonApp {
         // CustomerImpl customer = new CustomerImpl();
         // customer.setAddress(address);
 
-        // Person person1 = PersonImpl.builder()
-        //         .firstName("dsfsfdf")
-        //         .age(18)
-        //         .lastName("sdfgsdfg")
-        //         .address(address)
-        //         .build();
+        //Person person1 = PersonImpl.builder()
+                // .firstName("dsfsfdf")
+                // .age(18)
+                // .lastName("sdfgsdfg")
+                // .address(address)OF
+                //.build();
 
     }
 }
