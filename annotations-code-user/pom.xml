@@ -60,7 +60,6 @@
           <execution>
             <goals>
               <goal>version</goal>
-              <goal>property-helper</goal>
             </goals>
           </execution>
         </executions>
