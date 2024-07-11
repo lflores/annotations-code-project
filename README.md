@@ -11,6 +11,10 @@ no se animaron, como me pasó a mi.
 
 Este repositorio está estructurado para poder bajar el código y poder ejecutar para ver los ejemplos en funcionamiento. 
 
+La explicación de todo el proyecto está explicada en la [siguiente charla dada en Interbanking](https://lnkd.in/drbF8cT6) donde soy el segundo orador.
+Espero que te guste y sirva.
+Todo el código está como es y solamente es un ejemplo para explicar la tecnología, no me hago responsable si este código se usa en otro ambito y produce algún problema mayor.
+
 
 ## Instalación del plugin
 
