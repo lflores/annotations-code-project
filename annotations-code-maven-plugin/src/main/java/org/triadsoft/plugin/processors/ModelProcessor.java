@@ -60,8 +60,10 @@ public class ModelProcessor extends AbstractProcessor {
             boolean hasConstructor) {
         PackageElement packageElement = processingEnv.getElementUtils().getPackageOf(classElement);
         String packageName = packageElement.getQualifiedName().toString();
-        logger.info(String.format("package name: --- %s %s %s ---",ColorConstants.GREEN,packageName,ColorConstants.NC));
+        logger.info(
+                String.format("package name: --- %s %s %s ---", ColorConstants.GREEN, packageName, ColorConstants.NC));
         String className = classElement.getSimpleName().toString() + "Impl";
+        className = className.startsWith("I") ? className.substring(1) : className;
         PrintWriter writer = null;
         Filer filer = processingEnv.getFiler();
         try {
@@ -168,6 +170,8 @@ public class ModelProcessor extends AbstractProcessor {
         String packageName = classElement.getEnclosingElement().toString();
         String interfaceName = classElement.getSimpleName().toString();
         String classNameImpl = classElement.getSimpleName().toString() + "Impl";
+        classNameImpl = classNameImpl.startsWith("I") ? classNameImpl.substring(1) : classNameImpl;
+
         logger.info(String.format("Classname: %s", classNameImpl));
 
         writer.println(String.format("package %s;\n", packageName));
