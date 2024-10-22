@@ -26,6 +26,6 @@ public class GitVersionMojo extends AbstractMojo {
     private MavenProject project;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().info("Executing Mojo");
+        getLog().info("Executing GitVersion Mojo");
     }
 }

@@ -22,6 +22,7 @@ Con el siguiente comando en el directorio raíz de éste proyecto podrán genera
 en su repositorio local para su posterior uso.
 
 ```bash
+mvn clean -f annotations-code-user/pom.xml
 mvn clean install -f annotations-code-maven-plugin/pom.xml
 ```
 
