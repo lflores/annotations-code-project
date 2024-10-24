@@ -1,6 +1,10 @@
 package org.triadsoft.model;
 
-//@Data
+import org.triadsoft.plugin.processors.annotations.Constructor;
+import org.triadsoft.plugin.processors.annotations.Data;
+
+@Data
+@Constructor
 public interface ICustomer {
     Integer id = null;
     String name = null;

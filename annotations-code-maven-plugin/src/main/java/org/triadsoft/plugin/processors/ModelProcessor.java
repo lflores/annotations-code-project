@@ -112,6 +112,7 @@ public class ModelProcessor extends AbstractProcessor {
 
     private void generateConstructor(PrintWriter writer, Element classElement) {
         String className = classElement.getSimpleName().toString() + "Impl";
+        className = className.startsWith("I") ? className.substring(1):className;
         List<? extends Element> fields = classElement.getEnclosedElements()
                 .stream().filter(e -> ElementKind.FIELD.equals(e.getKind()))
                 .collect(Collectors.toList());
@@ -134,7 +135,8 @@ public class ModelProcessor extends AbstractProcessor {
 
     private void generateBuilderFile(PrintWriter printWriter, Element element) {
         String className = element.getSimpleName().toString() + "Impl";
-        String builderName = className + "Builder";
+        className = className.startsWith("I") ? className.substring(1):className;
+        final String builderName = className + "Builder";
         List<? extends Element> fields = element.getEnclosedElements()
                 .stream().filter(e -> ElementKind.FIELD.equals(e.getKind()))
                 .collect(Collectors.toList());
